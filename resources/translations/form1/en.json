@@ -1,0 +1,10 @@
+{
+    "context.intro": "intro sentence",
+    "context.title": "Title",
+    "context.title-english": "Title in English",
+    "context.startdate": "Start date",
+    "context.duration": "Duration",
+    "context.enddate": "End date",
+    "context.language": "Language used to fill the form",
+    "context.national-agency": "National agency"
+}
