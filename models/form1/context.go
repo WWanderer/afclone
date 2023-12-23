@@ -1,10 +1,10 @@
 package form1
 
 import (
-	"fmt"
 	"time"
 
 	c "github.com/WWanderer/afclone/models/common"
+	"github.com/gofiber/fiber/v2/log"
 )
 
 type Context struct {
@@ -33,7 +33,6 @@ func (dto *ContextDTO) Map() *Context {
 	context.Title.Value = dto.Title
 	context.TitleEnglish.Value = dto.TitleEnglish
 	context.StartDate.Value = getDate(dto.StartDate)
-	fmt.Println(dto.StartDate, context.StartDate.Value.Format("2006-01-02"))
 	context.Duration.Value = dto.Duration
 	context.EndDate.Value = context.StartDate.Value.AddDate(0, dto.Duration, 0)
 	context.Language.Value = c.Ccm2(dto.Language)
@@ -56,10 +55,11 @@ func (context *Context) Map() *ContextDTO {
 	return dto
 }
 
-func getDate(timeString string) time.Time {
+func getDate(timeString string) (time.Time) {
 	theTime, err := time.Parse("2006-01-02", timeString)
 	if err != nil {
-		fmt.Println("Could not parse time:", err)
+		log.Errorf("could not parse time: %w", err)
+		return time.Time{}
 	}
 	return theTime
 }
