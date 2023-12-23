@@ -2,7 +2,7 @@
 
 {{$context := .context}}
 
-<form id="context" hx-patch="/form1/context" hx-swap="outerHTML" hx-trigger="change delay:1s">
+<form id="context" hx-patch="/form1/{{.formid}}/context" hx-swap="outerHTML" hx-trigger="change delay:1s">
     <h1>Context</h1>
     <label for="title">Title</label>
     <input type="text" id="title" name="title" value="{{$context.Title.Value}}">

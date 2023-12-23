@@ -1,9 +1,16 @@
-<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+</head>
 
-<div hx-push-url="true" hx-get="/form1/context">
+<body>
     <h1>Opportunities</h1>
-    <label for="apply-form1"></label>
-    <button id="apply-form1" name="apply-form1">Apply for
-        form1</button>
-</div>
+    <form action="/form1">
+        <input type="submit" value="Apply for form1" />
+    </form>
+
+</body>
+
+</html>
