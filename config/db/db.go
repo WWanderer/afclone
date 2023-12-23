@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 
@@ -33,7 +32,7 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("MongoDB Connected!")
+	log.Println("MongoDB Connected!")
 
 	Instance = MongoInstance{
 		Client: client,

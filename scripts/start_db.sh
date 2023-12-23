@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker start mongo_afclone
+docker compose up -d

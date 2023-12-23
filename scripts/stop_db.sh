@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stop mongo_afclone
+docker compose stop
