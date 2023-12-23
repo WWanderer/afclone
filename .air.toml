@@ -6,25 +6,16 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-# Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./application.exe ./main.go"
-# Binary file yields from `cmd`.
-bin = "application.exe"
+cmd = "go build -o ./tmp/main.exe ./main.go"
+bin = "./tmp/main.exe"
 # Customize binary.
-full_bin = "application.exe"
-# Watch these filename extensions.
-#include_ext = ["go", "tpl", "tmpl", "html", "mustache", "hbs", "pug"]
+# full_bin = "main.exe"
 include_ext = ["go"]
-# Ignore these filename extensions or directories.
-exclude_dir = ["tmp", "vendor", "node_modules", "resources/views"]
-# Watch these directories if you specified.
+exclude_dir = ["tmp", "vendor", "node_modules", "resources", "scripts"]
 include_dir = []
-# Exclude files.
 exclude_file = []
-# This log file places in your tmp_dir.
 log = "air.log"
-# It's not necessary to trigger build each time file changes if it's too frequent.
-delay = 1000 # ms
+delay = 1000                                                            # ms
 # Stop running old binary when build errors occur.
 stop_on_error = true
 # Send Interrupt signal before killing process (windows does not support this feature)
@@ -34,7 +25,7 @@ kill_delay = 500 # ms
 
 [log]
 # Show log time
-time = false
+time = true
 
 [color]
 # Customize each part's color. If no color found, use the raw app log.

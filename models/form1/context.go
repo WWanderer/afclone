@@ -1,29 +1,30 @@
 package form1
 
 import (
-	c "github.com/WWanderer/afclone/models/common"
 	"fmt"
 	"time"
+
+	c "github.com/WWanderer/afclone/models/common"
 )
 
 type Context struct {
-	Title          c.Control[string]
-	TitleEnglish   c.Control[string]
-	StartDate      c.Control[time.Time]
-	Duration       c.Control[int]
-	EndDate        c.Control[time.Time]
-	Language       c.Control[c.Ccm2]
-	NationalAgency c.Control[c.Ccm2]
+	Title          c.Control[string]    `json:"title,omitempty" bson:"title,omitempty" form:"title"`
+	TitleEnglish   c.Control[string]    `json:"title_english,omitempty" bson:"title_english,omitempty" form:"title_english"`
+	StartDate      c.Control[time.Time] `json:"start_date,omitempty" bson:"start_date,omitempty" form:"start_date"`
+	Duration       c.Control[int]       `json:"duration,omitempty" bson:"duration,omitempty" form:"duration"`
+	EndDate        c.Control[time.Time] `json:"end_date,omitempty" bson:"end_date,omitempty" form:"end_date"`
+	Language       c.Control[c.Ccm2]    `json:"language,omitempty" bson:"language,omitempty" form:"language"`
+	NationalAgency c.Control[c.Ccm2]    `json:"national_agency,omitempty" bson:"national_agency,omitempty" form:"national_agency"`
 }
 
 type ContextDTO struct {
-	Title          string `json:"title" form:"title"`
-	TitleEnglish   string `json:"title_english" form:"title_english"`
-	StartDate      string `json:"start_date" form:"start_date"`
-	Duration       int    `json:"duration" form:"duration"`
-	EndDate        string `json:"end_date" form:"end_date"`
-	Language       int    `json:"language" form:"language"`
-	NationalAgency int    `json:"national_agency" form:"national_agency"`
+	Title          string `json:"title,omitempty" bson:"title,omitempty" form:"title"`
+	TitleEnglish   string `json:"title_english,omitempty" bson:"title_english,omitempty" form:"title_english"`
+	StartDate      string `json:"start_date,omitempty" bson:"start_date,omitempty" form:"start_date"`
+	Duration       int    `json:"duration,omitempty" bson:"duration,omitempty" form:"duration"`
+	EndDate        string `json:"end_date,omitempty" bson:"end_date,omitempty" form:"end_date"`
+	Language       int    `json:"language,omitempty" bson:"language,omitempty" form:"language"`
+	NationalAgency int    `json:"national_agency,omitempty" bson:"national_agency,omitempty" form:"national_agency"`
 }
 
 func (dto *ContextDTO) Map() *Context {

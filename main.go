@@ -1,15 +1,17 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"time"
 
+	"github.com/WWanderer/afclone/config/db"
 	"github.com/WWanderer/afclone/models/common"
 	"github.com/WWanderer/afclone/models/form1"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/storage/mongodb/v2"
 	"github.com/gofiber/template/html/v2"
 )
 
@@ -25,13 +27,10 @@ type Ccm2DisplayField struct {
 func main() {
 	// translations := translations.GetTranslations()
 
-	store:= mongodb.New(mongodb.Config{
-		ConnectionURI: "mongodb://admin:password@127.0.0.1:27017",
-		Database: "toto",
-		Collection: "totoStorage",
+	// store := mongodb.New(mongodb.Config{ConnectionURI: "mongodb://root:root@127.0.0.1:27017/afclone?authSource=admin"})
+	// fmt.Println(store.Conn())
 
-	})
-	fmt.Println(store.Conn())
+	db.ConnectDB()
 
 	engine := html.New("resources/views/form1", ".html")
 	engine.Reload(true)
@@ -55,13 +54,18 @@ func main() {
 	app.Patch("/context", func(c *fiber.Ctx) error {
 		postedContext := new(form1.ContextDTO)
 		if err := c.BodyParser(postedContext); err != nil {
+			log.Println(err)
 			return err
 		}
-		context := postedContext.Map() // save
-		fmt.Println(postedContext, context)
+		formContext := postedContext.Map() // save
+		fmt.Println(postedContext, formContext)
 
+		applicationsCollection := db.Instance.DB.Collection("applications")
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		applicationsCollection.InsertOne(ctx, formContext)
 
-		return c.Render("context", fiber.Map{"context": context,
+		return c.Render("context", fiber.Map{"context": formContext,
 			"durations":        []Duration{{Value: 1}, {Value: 2}, {Value: 3}},
 			"nationalAgencies": []Ccm2DisplayField{{DisplayValue: "BE01", Ccm2: 100}, {DisplayValue: "FR01", Ccm2: 101}, {DisplayValue: "DE01", Ccm2: 103}},
 			"languages":        []Ccm2DisplayField{{DisplayValue: "EN", Ccm2: 200}, {DisplayValue: "FR", Ccm2: 201}, {DisplayValue: "DE", Ccm2: 202}},
