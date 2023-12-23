@@ -1,7 +1,7 @@
 package form1
 
 import (
-	c "afclone/models/common"
+	c "github.com/WWanderer/afclone/models/common"
 	"fmt"
 	"time"
 )
@@ -46,9 +46,9 @@ func (context *Context) Map() *ContextDTO {
 
 	dto.Title = context.Title.Value
 	dto.TitleEnglish = context.TitleEnglish.Value
-	dto.StartDate = context.StartDate.Value.Format("2002-01-02")
+	dto.StartDate = context.StartDate.Value.Format("2006-01-02")
 	dto.Duration = context.Duration.Value
-	dto.EndDate = context.EndDate.Value.Format("2002-01-02")
+	dto.EndDate = context.EndDate.Value.Format("2006-01-02")
 	dto.Language = int(context.Language.Value)
 	dto.NationalAgency = int(context.NationalAgency.Value)
 

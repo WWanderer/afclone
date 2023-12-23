@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"log"
 
-	"afclone/models/common"
-	"afclone/models/form1"
+	"github.com/WWanderer/afclone/models/common"
+	"github.com/WWanderer/afclone/models/form1"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/storage/mongodb/v2"
 	"github.com/gofiber/template/html/v2"
 )
 
@@ -23,6 +24,14 @@ type Ccm2DisplayField struct {
 
 func main() {
 	// translations := translations.GetTranslations()
+
+	store:= mongodb.New(mongodb.Config{
+		ConnectionURI: "mongodb://admin:password@127.0.0.1:27017",
+		Database: "toto",
+		Collection: "totoStorage",
+
+	})
+	fmt.Println(store.Conn())
 
 	engine := html.New("resources/views/form1", ".html")
 	engine.Reload(true)
@@ -50,6 +59,7 @@ func main() {
 		}
 		context := postedContext.Map() // save
 		fmt.Println(postedContext, context)
+
 
 		return c.Render("context", fiber.Map{"context": context,
 			"durations":        []Duration{{Value: 1}, {Value: 2}, {Value: 3}},
