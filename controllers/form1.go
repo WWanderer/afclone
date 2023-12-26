@@ -33,22 +33,21 @@ func GetRootForm1(c *fiber.Ctx) error {
 }
 
 func GetForm1Context(c *fiber.Ctx) error {
-
 	formid, err := uuid.Parse(c.Params("formid"))
 	if err != nil {
 		return fiber.ErrBadRequest
 	}
 
 	var form1 = new(form1.Form1)
-	r := applications.FindById(formid, form1)
-
-	log.Println(r.Raw())
-	r.Decode(&form1)
+	err = applications.FindById(formid, form1).Decode(&form1)
 	log.Println(form1)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Error while decoding application data", err.Error())
+	}
 
-	m := fiber.Map{"context": form1.Context.Value, "formid": formid}
-	maps.Copy(m, contextInputs)
-	return c.Render("form1/context", m)
+	bind := fiber.Map{"context": form1.Context.Value, "formid": formid}
+	maps.Copy(bind, contextInputs)
+	return c.Render("form1/context", bind)
 }
 
 func PatchForm1Context(c *fiber.Ctx) error {

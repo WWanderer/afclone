@@ -42,7 +42,7 @@ func UpdateOrInsert(id uuid.UUID, update interface{}) (*mongo.UpdateResult, erro
 
 }
 
-func FindById(id uuid.UUID, result interface{})*mongo.SingleResult  {
+func FindById(id uuid.UUID, result interface{}) *mongo.SingleResult {
 	applicationsCollection := dbconfig.Instance.DB.Collection("applications")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
