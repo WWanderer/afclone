@@ -8,23 +8,23 @@ import (
 )
 
 type Context struct {
-	Title          c.Control[string]    `json:"title,omitempty" bson:"title,omitempty" form:"title"`
-	TitleEnglish   c.Control[string]    `json:"title_english,omitempty" bson:"title_english,omitempty" form:"title_english"`
-	StartDate      c.Control[time.Time] `json:"start_date,omitempty" bson:"start_date,omitempty" form:"start_date"`
-	Duration       c.Control[int]       `json:"duration,omitempty" bson:"duration,omitempty" form:"duration"`
-	EndDate        c.Control[time.Time] `json:"end_date,omitempty" bson:"end_date,omitempty" form:"end_date"`
-	Language       c.Control[c.Ccm2]    `json:"language,omitempty" bson:"language,omitempty" form:"language"`
-	NationalAgency c.Control[c.Ccm2]    `json:"national_agency,omitempty" bson:"national_agency,omitempty" form:"national_agency"`
+	Title          c.Control[string]     `json:"title,omitempty" bson:"title,omitempty" form:"title"`
+	TitleEnglish   c.Control[string]     `json:"title_english,omitempty" bson:"title_english,omitempty" form:"title_english"`
+	StartDate      c.Control[time.Time]  `json:"start_date,omitempty" bson:"start_date,omitempty" form:"start_date"`
+	Duration       c.Control[int]        `json:"duration,omitempty" bson:"duration,omitempty" form:"duration"`
+	EndDate        c.Control[time.Time]  `json:"end_date,omitempty" bson:"end_date,omitempty" form:"end_date"`
+	Language       c.Control[c.Ccm2]     `json:"language,omitempty" bson:"language,omitempty" form:"language"`
+	NationalAgency c.Control[c.Ccm2]     `json:"national_agency,omitempty" bson:"national_agency,omitempty" form:"national_agency"`
 }
 
 type ContextDTO struct {
-	Title          string `json:"title,omitempty" bson:"title,omitempty" form:"title"`
-	TitleEnglish   string `json:"title_english,omitempty" bson:"title_english,omitempty" form:"title_english"`
-	StartDate      string `json:"start_date,omitempty" bson:"start_date,omitempty" form:"start_date"`
-	Duration       int    `json:"duration,omitempty" bson:"duration,omitempty" form:"duration"`
-	EndDate        string `json:"end_date,omitempty" bson:"end_date,omitempty" form:"end_date"`
-	Language       int    `json:"language,omitempty" bson:"language,omitempty" form:"language"`
-	NationalAgency int    `json:"national_agency,omitempty" bson:"national_agency,omitempty" form:"national_agency"`
+	Title          string `form:"title"`
+	TitleEnglish   string `form:"title_english"`
+	StartDate      string `form:"start_date"`
+	Duration       int    `form:"duration"`
+	EndDate        string `form:"end_date"`
+	Language       int    `form:"language"`
+	NationalAgency int    `form:"national_agency"`
 }
 
 func (dto *ContextDTO) Map() *Context {
@@ -58,7 +58,7 @@ func (context *Context) Map() *ContextDTO {
 func getDate(timeString string) (time.Time) {
 	theTime, err := time.Parse("2006-01-02", timeString)
 	if err != nil {
-		log.Errorf("could not parse time: %w", err)
+		log.Error("could not parse time: ", err)
 		return time.Time{}
 	}
 	return theTime

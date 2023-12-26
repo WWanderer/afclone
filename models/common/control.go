@@ -2,9 +2,9 @@ package common
 
 type formError string
 
-type Control [T any] struct {
-	Value T
-	Errors []formError
-	Enabled bool
-	Readonly bool
+type Control[T any] struct {
+	Value    T           `bson:"value"`
+	Errors   []formError `bson:"errors"`
+	Enabled  bool        `bson:"enabled"`
+	Readonly bool        `bson:"readonly"`
 }
