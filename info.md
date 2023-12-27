@@ -8,9 +8,8 @@ automatize mapping http post/patch/get to dtos and in reverse
 
 # questions
 how to use translation keys in templates?
-how to create a form?
 how to handle session, need to create an application with an
-how to handle patch of part of a form eg _id, context should patch _id, form
+how to handle errors? send some back to client? log everything?
 
 # useful links
 [https://www.howtogeek.com/devops/how-to-run-mongodb-in-a-docker-container/]

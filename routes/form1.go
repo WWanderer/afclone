@@ -6,7 +6,7 @@ import (
 )
 
 func Form1Routes(route fiber.Router) {
-	route.Get("/", controllers.GetRootForm1)
+	route.Get("/", controllers.CreateForm1)
 	route.Get("/:formid/context", controllers.GetForm1Context)
 	route.Patch("/:formid/context", controllers.PatchForm1Context)
 }

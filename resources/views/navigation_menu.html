@@ -1,0 +1,7 @@
+{{define "navmenu"}}
+<ul>
+    {{range .}}
+    <li><a href="{{.Value}}">{{.Label}}</a></li>
+    {{end}}
+</ul>
+{{end}}

@@ -12,11 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertOne(application interface{}) {
+func InsertOne(application interface{}) (*mongo.InsertOneResult, error) {
 	applicationsCollection := dbconfig.Instance.DB.Collection("applications")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	applicationsCollection.InsertOne(ctx, application)
+	res, err := applicationsCollection.InsertOne(ctx, application) // TODO handle error
+	return res, err
 }
 
 func UpdateOrInsert(id uuid.UUID, update interface{}) (*mongo.UpdateResult, error) {

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker logs mongo_afclone --follow | jq
+docker logs mongo_afclone --follow
