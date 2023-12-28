@@ -1,10 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"maps"
-	"reflect"
 
 	"github.com/WWanderer/afclone/database/collections/applications"
 	"github.com/WWanderer/afclone/models/common"
@@ -14,12 +12,29 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+var menuItems = []common.ValueLabel[string]{
+	{Value: "context", Label: "Context"},
+	{Value: "participating_organisations", Label: "Participating Organisations"},
+	{Value: "activities", Label: "Activities"},
+	{Value: "annexes", Label: "Annexes"},
+}
+
 // TODO load from config or db
 var contextInputs = map[string]interface{}{
 	"durations":        []common.ValueLabel[int]{{Value: 1}, {Value: 2}, {Value: 3}},
 	"nationalAgencies": []common.Ccm2DisplayField{{DisplayValue: "BE01", Ccm2: 100}, {DisplayValue: "FR01", Ccm2: 101}, {DisplayValue: "DE01", Ccm2: 103}},
 	"languages":        []common.Ccm2DisplayField{{DisplayValue: "EN", Ccm2: 200}, {DisplayValue: "FR", Ccm2: 201}, {DisplayValue: "DE", Ccm2: 202}},
-	"menuItems":        []common.ValueLabel[string]{{Value: "context", Label: "Context"}, {Value: "participating_organisations", Label: "Participating Organisations"}},
+	"menuItems":        menuItems,
+}
+
+var participatingOrganisationsInputs = map[string]interface{}{
+	"menuItems": menuItems,
+}
+var activitiesInputs = map[string]interface{}{
+	"menuItems": menuItems,
+}
+var annexesInputs = map[string]interface{}{
+	"menuItems": menuItems,
 }
 
 func BuildNavMenu(form1 form1.Form1) []common.ValueLabel[string] {
@@ -80,4 +95,35 @@ func PatchForm1Context(c *fiber.Ctx) error {
 	bind := fiber.Map{"context": form1Context.Value, "formid": formid}
 	maps.Copy(bind, contextInputs)
 	return c.Render("form1/context", bind)
+}
+
+func GetForm1ParticipatingOrganisations(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, participatingOrganisationsInputs)
+	return c.Render("form1/participating_organisations", bind)
+}
+func PatchForm1ParticipatingOrganisations(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, participatingOrganisationsInputs)
+	return c.Render("form1/participating_organisations", bind)
+}
+func GetForm1Activities(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, activitiesInputs)
+	return c.Render("form1/activities", bind)
+}
+func PatchForm1Activities(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, activitiesInputs)
+	return c.Render("form1/activities", bind)
+}
+func GetForm1Annexes(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, annexesInputs)
+	return c.Render("form1/annexes", bind)
+}
+func PatchForm1Annexes(c *fiber.Ctx) error {
+	bind := fiber.Map{}
+	maps.Copy(bind, annexesInputs)
+	return c.Render("form1/annexes", bind)
 }
