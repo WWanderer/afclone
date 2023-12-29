@@ -31,10 +31,12 @@ var contextInputs = map[string]interface{}{
 var participatingOrganisationsInputs = map[string]interface{}{
 	"menuItems": menuItems,
 }
+
 var activitiesInputs = map[string]interface{}{
 	"activityTypes": []common.Ccm2DisplayField{{DisplayValue: "Mobility Activity Partner Countries", Ccm2: 1001}, {DisplayValue: "Preparatory Visit", Ccm2: 1002}, {DisplayValue: "Mobility Activity Countries Not Associated", Ccm2: 1004}},
 	"menuItems":     menuItems,
 }
+
 var annexesInputs = map[string]interface{}{
 	"menuItems": menuItems,
 }
@@ -97,7 +99,6 @@ func PatchForm1Context(c *fiber.Ctx) error {
 	formid := c.Params("formid")
 
 	postedContext := new(form1.ContextDTO)
-
 	if err := c.BodyParser(postedContext); err != nil {
 		return fmt.Errorf("parsing context of %s from request body: %w", formid, err)
 	}
@@ -145,9 +146,21 @@ func GetForm1Activities(c *fiber.Ctx) error {
 func PatchForm1Activities(c *fiber.Ctx) error {
 	formid := c.Params("formid")
 
-	fmt.Printf("c.Body(): %v\n", c.Body())
+	postedActivities := new(form1.ActivitiesDTO)
+	if err := c.BodyParser(postedActivities); err != nil {
+		return fmt.Errorf("parsing activities of %s from request body: %w", formid, err)
+	}
+	form1Activties := common.Control[form1.Activities]{Value: *postedActivities.Map()}
+	update := bson.D{{
+		Key:   "$set",
+		Value: bson.D{{Key: "activities", Value: form1Activties}},
+	}}
+	err := updateForm1(formid, update)
+	if err != nil {
+		return fmt.Errorf("updating form %s: %w", formid, err)
+	}
 
-	bind := fiber.Map{"formid": formid}
+	bind := fiber.Map{"formid": formid, "activities": form1Activties.Value}
 	maps.Copy(bind, activitiesInputs)
 	return c.Render("form1/activities", bind)
 }
@@ -161,7 +174,7 @@ func Form1AddActivity(c *fiber.Ctx) error {
 	}
 	activityList := f1.Activities.Value.ActivityList.Value
 	newActivity := form1.Activity{Id: common.Control[int]{Value: len(activityList)}}
-	activityList = append(activityList,newActivity)
+	activityList = append(activityList, newActivity)
 
 	f1.Activities.Value.ActivityList.Value = activityList
 	update := bson.D{{
@@ -190,7 +203,6 @@ func Form1DeleteActivity(c *fiber.Ctx) error {
 	}
 
 	activityList := f1.Activities.Value.ActivityList.Value
-	fmt.Printf("activityList: %v\n", len(activityList))
 	if len(activityList) == 1 {
 		f1.Activities.Value.ActivityList.Value = []form1.Activity{}
 	} else {
@@ -215,7 +227,6 @@ func Form1DeleteActivity(c *fiber.Ctx) error {
 	bind := fiber.Map{"formid": formid, "activities": f1.Activities.Value}
 	maps.Copy(bind, activitiesInputs)
 	return c.Render("form1/activities", bind)
-
 }
 
 func GetForm1Annexes(c *fiber.Ctx) error {

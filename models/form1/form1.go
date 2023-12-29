@@ -21,7 +21,6 @@ func NewForm1(ID string) *Form1 {
 	f1 := new(Form1)
 
 	f1.ID = ID
-	f1.Context.Section = true
 
 	return f1
 }
