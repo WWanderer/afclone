@@ -5,8 +5,11 @@ import (
 )
 
 type Form1 struct {
-	ID      string                  `json:"ID,omitempty" bson:"ID" form:"id"` // TODO switch back to uuid.UUID, problems with encoding/decoding in mongodriver
-	Context common.Control[Context] `json:"context,omitempty" bson:"context" form:"context"`
+	ID                        string                  `json:"ID,omitempty" bson:"ID" form:"id"` // TODO switch back to uuid.UUID, problems with encoding/decoding in mongodriver
+	Context                   common.Control[Context] `json:"context,omitempty" bson:"context" form:"context"`
+	ParticipatingOrganisations common.Control[ParticipatingOrganisations]  `json:"participating_organisation,omitempty" bson:"participating_organisation,omitempty" form:"participating_organisation"`
+	Activities                common.Control[Activities] `json:"activities,omitempty" bson:"activities,omitempty" form:"activities"`
+	Annexes                   common.Control[Annexes] `json:"annexes,omitempty" bson:"annexes,omitempty" form:"annexes"`
 }
 
 type Form1DTO struct {

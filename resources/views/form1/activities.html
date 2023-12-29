@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+    {{$activities := .activities}}
+    {{$activityTypes := .activityTypes}}
+    {{$formid := .formid}}
+</head>
+
+<body>
+    <form id="activities" hx-patch="/form1/{{$formid}}/activities" hx-swap="outerHTML" hx-trigger="change delay:1s">
+        {{template "navmenu" .menuItems}}
+        <h1>Activities</h1>
+        <label for="purpose_activities">Explain the purpose of the activities
+            <textarea name="purpose_activities" id="purpose_activities" rows="5"
+                style="width: 100%;">{{$activities.PurposeActivities.Value}}</textarea>
+        </label>
+        <table id="activity_table">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Activity type</th>
+                <th>Number of participants</th>
+                <th>Grant €</th>
+                <th>Actions</th>
+            </tr>
+            {{range $activities.ActivityList.Value}}
+            <tr>
+                {{$activity := .}}
+                <td><input id="activity_id" type="text" value="{{$activity.Id.Value}}" disabled></td>
+                <td><input id="activity_title" type="text" value="{{$activity.Title.Value}}"></td>
+                <td> <select id="activity_type">
+                        <option value="" disabled selected>Select your option</option>
+                        {{range $activityTypes}}
+                        {{if eq $activity.ActivityType.Value .Ccm2}}
+                        <option value="{{.Ccm2}}" selected>{{.DisplayValue}}</option>
+                        {{else}}
+                        <option value="{{.Ccm2}}">{{.DisplayValue}}</option>
+                        {{end}}
+                        {{end}}
+                    </select>
+                </td>
+                <td><input type="number" value="{{$activity.NumberOfParticipants.Value}}" disabled></td>
+                <td><input id="activity_grant" type="number"></td>
+                <td>
+                    <form action="/form1/{{$formid}}/activities/{{$activity.Id.Value}}">
+                        <input type="submit" value="Edit Activity" />
+                    </form>
+                    <form hx-delete="/form1/{{$formid}}/activities/{{$activity.Id.Value}}" hx-target="body"
+                        hx-confirm="Are you sure you want to delete this activity?">
+                        <input type="submit" value="Delete Activity" />
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </table>
+    </form>
+    <form hx-post="/form1/{{$formid}}/activities/add" hx-target="body">
+        <input type="submit" value="Add new activity" />
+    </form>
+</body>

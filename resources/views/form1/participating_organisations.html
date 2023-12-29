@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+    {{$participatingOrganisations := .participatingOrganisations}}
+</head>
+
+<body>
+    <form id="context" hx-patch="/form1/{{.formid}}/participating_organisations" hx-swap="outerHTML" hx-trigger="change delay:1s">
+        {{template "navmenu" .menuItems}}
+
+    </form>
+</body>

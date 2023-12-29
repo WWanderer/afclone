@@ -16,6 +16,8 @@ func Form1Routes(route fiber.Router) {
 
 	route.Get("/:formid/activities", controllers.GetForm1Activities)
 	route.Patch("/:formid/activities", controllers.PatchForm1Activities)
+	route.Post("/:formid/activities/add", controllers.Form1AddActivity)
+	route.Delete("/:formid/activities/:id", controllers.Form1DeleteActivity)	
 
 	route.Get("/:formid/annexes", controllers.GetForm1Annexes)
 	route.Patch("/:formid/annexes", controllers.PatchForm1Annexes)
